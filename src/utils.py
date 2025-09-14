@@ -130,3 +130,8 @@ def get_stock(path_to_json: str) -> list[dict]:
             price = td.price(symbol=stock).as_json()
             stock_rates.append({"stock": stock, "price": f"{round(float(price["price"]), 2)}"})
         return stock_rates
+
+
+def read_xlsx(path: str) -> DataFrame:
+    data = pd.read_excel(path)
+    return data
