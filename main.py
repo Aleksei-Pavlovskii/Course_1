@@ -1,4 +1,6 @@
+from src.services import analyze_cashback
 from src.views import main_info
 
 if __name__ == "__main__":
-    print(main_info("2018-05-03 15:30:00"))
+    # print(main_info("2018-05-03 15:30:00"))
+    print(analyze_cashback("data/operations.xlsx", 2021, 5))
