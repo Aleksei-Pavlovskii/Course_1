@@ -4,7 +4,7 @@ import pandas as pd
 from pandas import DataFrame
 
 from src.utils import (get_card_with_spend, get_currency, get_data_time, get_slice_period, get_stock,
-                       get_top_transactions, get_user_time)
+                       get_top_transactions, get_user_time, read_xlsx)
 
 
 @patch("src.utils.datetime")
@@ -124,3 +124,9 @@ def test_get_stock(mock_open_file: Mock, mock_json_load: Mock, mock_os: Mock, mo
     expected_result = [{"stock": "AAPL", "price": "150.12"}]
     result = get_stock("test.json")
     assert result == expected_result
+
+
+@patch("pandas.read_excel")
+def test_read_xlsx(mock_xlsx: Mock, table_xlsx: DataFrame) -> None:
+    mock_xlsx.return_value = table_xlsx
+    assert read_xlsx("a").equals(table_xlsx)
