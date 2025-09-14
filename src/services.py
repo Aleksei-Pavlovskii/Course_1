@@ -12,7 +12,7 @@ def analyze_cashback(file_path: str, year: int, month: int) -> str:
     df["Дата операции"] = pd.to_datetime(df["Дата операции"], format="%d.%m.%Y %H:%M:%S")
     filtered_data = df[
         (df["Дата операции"].dt.year == year) & (df["Дата операции"].dt.month == month) & (df["Кэшбэк"] > 0)
-        ]
+    ]
 
     expenses_by_category = filtered_data.groupby("Категория")["Кэшбэк"].sum()
 
@@ -23,7 +23,3 @@ def analyze_cashback(file_path: str, year: int, month: int) -> str:
     json_data = json.dumps(data, ensure_ascii=False, indent=4)
 
     return json_data
-
-
-if __name__ == "__main__":
-    analyze_cashback("../data/operations.xlsx", 2021, 5)

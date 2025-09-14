@@ -16,7 +16,7 @@ from src.views import main_info
 def test_main_info(
     mock_data: Mock,
     mock_data_period: Mock,
-    mock_time,
+    mock_time: Mock,
     mock_card: Mock,
     mock_transactions: Mock,
     mock_currency: Mock,
