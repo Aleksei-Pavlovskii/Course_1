@@ -1,5 +1,5 @@
 import json
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import pandas
 
@@ -13,7 +13,15 @@ from src.views import main_info
 @patch("src.views.get_user_time")
 @patch("src.views.get_slice_period")
 @patch("src.views.get_data_time")
-def test_main_info(mock_data, mock_data_period, mock_time, mock_card, mock_transactions, mock_currency, mock_stock):
+def test_main_info(
+    mock_data: Mock,
+    mock_data_period: Mock,
+    mock_time,
+    mock_card: Mock,
+    mock_transactions: Mock,
+    mock_currency: Mock,
+    mock_stock: Mock,
+) -> None:
     mock_data.return_value = ["01.12.2021 13:12:18", "02.12.2021 14:41:17"]
     mock_data_period.return_value = pandas.DataFrame(
         {
