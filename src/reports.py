@@ -3,6 +3,8 @@ from datetime import datetime
 import pandas as pd
 import logging
 
+from src.decorators import write_reports_to_csv
+
 logger = logging.getLogger("reports")
 logger.setLevel(logging.DEBUG)
 file_handler = logging.FileHandler("logs/reports.log", mode="w", encoding="utf-8")
@@ -10,7 +12,7 @@ file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s: %(me
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 
-
+@write_reports_to_csv
 def spending_by_category(transactions: pd.DataFrame, category: str, date: str | None = None) -> pd.DataFrame:
     """
     Функция возвращает траты по заданной категории за последние три месяца (от переданной даты).
