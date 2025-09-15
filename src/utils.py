@@ -7,6 +7,14 @@ import requests
 from dotenv import load_dotenv
 from pandas import DataFrame
 from twelvedata import TDClient
+import logging
+
+logger = logging.getLogger("utils")
+logger.setLevel(logging.DEBUG)
+file_handler = logging.FileHandler("logs/utils.log", mode="w", encoding="utf-8")
+file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s: %(message)s")
+file_handler.setFormatter(file_formatter)
+logger.addHandler(file_handler)
 
 load_dotenv()
 
@@ -21,6 +29,7 @@ def get_user_time() -> str:
     / «Доброй ночи» в зависимости от текущего времени.
     """
     user_data_hour = datetime.now().hour
+    logger.info(f"Время входа пользователя: {user_data_hour}")
     if 5 <= user_data_hour < 11:
         return "Доброе утро"
     elif 11 <= user_data_hour < 17:
@@ -50,6 +59,7 @@ def get_slice_period(path: str, period_date: list) -> DataFrame:
     df["Дата операции"] = pd.to_datetime(df["Дата операции"], dayfirst=True)
     start_date = datetime.strptime(period_date[0], "%d.%m.%Y %H:%M:%S")
     end_date = datetime.strptime(period_date[1], "%d.%m.%Y %H:%M:%S")
+    logger.info(f'Выбран период с {start_date} по {end_date}')
 
     filter_df = df[(df["Дата операции"] >= start_date) & (df["Дата операции"] <= end_date)]
     sorted_df = filter_df.sort_values(by="Дата операции")
@@ -58,7 +68,7 @@ def get_slice_period(path: str, period_date: list) -> DataFrame:
 
 def get_card_with_spend(sort_df: DataFrame) -> list[dict]:
     """
-    Функция принимает таблицу за определенный период и возвращает список кард с расходами
+    Функция принимает таблицу за определенный период и возвращает список карт с расходами
     """
     card_spent_transaction = []
     card_sorted = sort_df[["Номер карты", "Сумма операции", "Кэшбэк", "Сумма операции с округлением"]]
